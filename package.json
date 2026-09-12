@@ -15,8 +15,7 @@
     "prisma:migrate": "prisma migrate dev --schema server/prisma/schema.prisma",
     "prisma:seed": "node prisma/seed.js",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "postinstall": "prisma generate --schema server/prisma/schema.prisma"
+    "test:watch": "vitest"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

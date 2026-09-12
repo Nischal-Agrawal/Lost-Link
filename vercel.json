@@ -1,32 +1,15 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run prisma:generate && npm run build:client",
+  "outputDirectory": "client/dist",
+  "rewrites": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 30
-      }
-    },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/client/dist/index.html"
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
     }
-  ]
+  }
 }
