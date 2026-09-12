@@ -1,0 +1,44 @@
+{
+  "name": "lostlink",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LostLink - Lost and Found Management Platform",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node --watch server/src/server.js",
+    "dev:client": "vite --config client/vite.config.js",
+    "build": "npm run build:client",
+    "build:client": "vite build --config client/vite.config.js",
+    "start": "node server/src/server.js",
+    "prisma:generate": "prisma generate --schema server/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema server/prisma/schema.prisma",
+    "prisma:seed": "node prisma/seed.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "prisma generate --schema server/prisma/schema.prisma"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "concurrently": "^9.2.1",
+    "prisma": "^6.15.0",
+    "supertest": "^7.1.4",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.1"
+  }
+}

@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ItemType {
+  LOST
+  FOUND
+}
+
+enum ItemStatus {
+  ACTIVE
+  CLAIMED
+  RESOLVED
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  disabled  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items  Item[]
+  claims Claim[]
+
+  @@index([role])
+  @@index([disabled])
+}
+
+model Item {
+  id          String     @id @default(cuid())
+  userId      String
+  type        ItemType
+  title       String
+  description String
+  category    String
+  color       String
+  brand       String?
+  location    String
+  date        DateTime
+  imageUrl    String?
+  status      ItemStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  claims Claim[]
+
+  @@index([userId])
+  @@index([type])
+  @@index([category])
+  @@index([status])
+  @@index([date])
+}
+
+model Claim {
+  id         String      @id @default(cuid())
+  itemId     String
+  claimantId String
+  message    String
+  status     ClaimStatus @default(PENDING)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  item     Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  claimant User @relation(fields: [claimantId], references: [id], onDelete: Cascade)
+
+  @@index([itemId])
+  @@index([claimantId])
+  @@index([status])
+}
