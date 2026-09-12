@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/[...path].js",
+      "src": "api/index.js",
       "use": "@vercel/node",
       "config": {
         "maxDuration": 30
@@ -19,7 +19,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/[...path].js"
+      "dest": "/api/index.js"
     },
     {
       "handle": "filesystem"
