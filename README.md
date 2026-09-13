@@ -4,9 +4,12 @@ LostLink is a full-stack lost-and-found platform for creating item reports, disc
 
 It combines deterministic matching with optional Gemini AI analysis. The local matcher provides predictable results even when AI is unavailable, while Gemini adds semantic reasoning for natural-language descriptions and competing claim statements.
 
-<!-- IMAGE: hero-screenshot -->
+<img width="400" height="225" alt="m" src="https://github.com/user-attachments/assets/554e638a-73ba-4ecd-992a-8d656dc9825f" />
 
-<img width="400" height="225" alt="good_but_i_dont_see_any_admin (1)" src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" />
+<!-- IMAGE: hero-screenshot -->
+<!-- <video src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" autoplay loop muted playsinline></video> -->
+
+<!-- <img width="400" height="225" alt="good_but_i_dont_see_any_admin (1)" src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" /> -->
 
 
 
@@ -100,6 +103,14 @@ The product is designed around human review. AI provides evidence and ranking, b
 - Protect administrator accounts from deletion.
 
 <!-- IMAGE: user-dashboard -->
+<img width="1908" height="896" alt="Screenshot 2026-09-13 132220" src="https://github.com/user-attachments/assets/106718d5-593b-43f2-9cb3-b4e5d2c66b71" />
+
+<img width="1879" height="896" alt="Screenshot 2026-09-13 132237" src="https://github.com/user-attachments/assets/5f0c06da-6135-41a8-9550-ea212ce6b95b" />
+
+<img width="1881" height="889" alt="Screenshot 2026-09-13 132257" src="https://github.com/user-attachments/assets/6628149f-fc26-483f-9b1d-585e6c9d5923" />
+
+<img width="1899" height="903" alt="Screenshot 2026-09-13 132003" src="https://github.com/user-attachments/assets/9ed7e58d-8f43-42d9-a06f-0bf8b52d178d" />
+
 
 <!-- IMAGE: report-form -->
 
@@ -573,12 +584,16 @@ POST https://your-domain.vercel.app/api/auth/register
 
 ## Demo Credentials
 
-The seed script provisions the demo administrator:
+<details>
+<summary>🔑 View Demo Administrator Credentials</summary>
 
 ```text
 Email:    admin@lostlink.local
 Password: Admin@12345
 ```
+
+</details>
+
 
 Demo user accounts from the seed script:
 
@@ -622,39 +637,3 @@ The project includes test-file placeholders under `tests/`. These should be expa
 - User deletion is destructive; production systems may prefer soft deletion.
 - The test files need meaningful automated coverage.
 - Production monitoring, structured logs, and alerting should be added for a larger deployment.
-
-## Image Placeholder Guide
-
-The README includes intentionally named placeholders so screenshots can be added without changing the documentation structure.
-
-| Placeholder | Image to insert | Recommended content |
-| --- | --- | --- |
-| `hero-screenshot` | Product hero screenshot | A clean full-window screenshot showing the LostLink dashboard or items view. Blur or remove personal data. |
-| `user-dashboard` | User dashboard screenshot | Logged-in user dashboard showing report actions and Lost/Found navigation. |
-| `report-form` | Report creation screenshot | The create-report form with representative, non-sensitive example data. |
-| `item-details-and-claim-form` | Item detail screenshot | An item detail page showing report metadata, claim form, and possible matches. |
-| `admin-workspace` | Admin dashboard screenshot | Found-report filter, claimant list, manual approval buttons, and the AI ranking action. Hide emails or use seeded demo accounts. |
-
-### Suggested Image Paths
-
-When screenshots are available, store them in:
-
-```text
-docs/images/hero-screenshot.png
-docs/images/user-dashboard.png
-docs/images/report-form.png
-docs/images/item-details-and-claim-form.png
-docs/images/admin-workspace.png
-```
-
-Then replace each marker with normal Markdown image syntax, for example:
-
-```markdown
-![LostLink dashboard](docs/images/user-dashboard.png)
-```
-
-## Interview Summary
-
-The strongest concise summary is:
-
-> LostLink is a React and Express lost-and-found platform backed by PostgreSQL and Prisma. It supports authenticated reports, claims, admin moderation, and hybrid matching. The matching engine first uses deterministic structured and text similarity, then optionally asks Gemini to enrich the top candidates. Claim approval is transactional, and admin AI ranking is batched, bounded, and explicitly triggered so the system remains cost-aware and human-controlled.
