@@ -6,6 +6,13 @@ It combines deterministic matching with optional Gemini AI analysis. The local m
 
 <!-- IMAGE: hero-screenshot -->
 
+<img width="400" height="225" alt="good_but_i_dont_see_any_admin (1)" src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" />
+
+
+
+
+
+
 ## Contents
 
 - [Product Overview](#product-overview)
