@@ -4,6 +4,8 @@ LostLink is a full-stack lost-and-found platform for creating item reports, disc
 
 It combines deterministic matching with optional Gemini AI analysis. The local matcher provides predictable results even when AI is unavailable, while Gemini adds semantic reasoning for natural-language descriptions and competing claim statements.
 
+<img width="800" height="500" alt="m" src="https://github.com/user-attachments/assets/554e638a-73ba-4ecd-992a-8d656dc9825f" />
+
 ### Quick Project Summary
 
 **Core flow:** Users report LOST/FOUND items → the system discovers opposite-type candidates → deterministic matching scores candidates → optional Gemini enrichment adds semantic evidence → users submit claims → administrators review and make the final ownership decision.
@@ -20,8 +22,14 @@ It combines deterministic matching with optional Gemini AI analysis. The local m
 
 **Deployment:** The repository is configured for one-domain Vercel deployment, with `/api` handled by the Express function and the React app served from `client/dist`.
 
-> **All detailed documentation remains below, unchanged in substance and available by clicking each section.**
 
+<img width="1908" height="896" alt="Screenshot 2026-09-13 132220" src="https://github.com/user-attachments/assets/106718d5-593b-43f2-9cb3-b4e5d2c66b71" />
+
+<img width="1879" height="896" alt="Screenshot 2026-09-13 132237" src="https://github.com/user-attachments/assets/5f0c06da-6135-41a8-9550-ea212ce6b95b" />
+
+<img width="1881" height="889" alt="Screenshot 2026-09-13 132257" src="https://github.com/user-attachments/assets/6628149f-fc26-483f-9b1d-585e6c9d5923" />
+
+<img width="1899" height="903" alt="Screenshot 2026-09-13 132003" src="https://github.com/user-attachments/assets/9ed7e58d-8f43-42d9-a06f-0bf8b52d178d" />
 
 ## Contents
 
@@ -46,7 +54,6 @@ It combines deterministic matching with optional Gemini AI analysis. The local m
 - [Demo Credentials](#demo-credentials)
 - [Testing and Validation](#testing-and-validation)
 - [Known Limitations](#known-limitations)
-- [Image Placeholder Guide](#image-placeholder-guide)
 
 </details>
 
