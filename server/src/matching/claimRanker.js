@@ -10,6 +10,58 @@ function clean(value) {
     .slice(0, MAX_TEXT_LENGTH);
 }
 
+function tokenize(value) {
+  return clean(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((token) => token.length > 2);
+}
+
+function localRanking(item, claims) {
+  const itemTokens = new Set(
+    tokenize(
+      [
+        item.title,
+        item.description,
+        item.category,
+        item.color,
+        item.brand,
+        item.location
+      ].join(" ")
+    )
+  );
+
+  return claims
+    .slice(0, MAX_CLAIMS)
+    .map((claim) => {
+      const claimTokens = tokenize(claim.message);
+      const overlap = claimTokens.filter((token) =>
+        itemTokens.has(token)
+      ).length;
+      const score = claimTokens.length
+        ? overlap / claimTokens.length
+        : 0;
+
+      return {
+        claimId: claim.id,
+        score,
+        confidence: score >= 0.35 ? "MEDIUM" : "REVIEW",
+        reason:
+          overlap > 0
+            ? `The statement shares ${overlap} descriptive detail${overlap === 1 ? "" : "s"} with the report.`
+            : "The statement does not share clear descriptive terms with the report."
+      };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map((entry, index) => ({
+      claimId: entry.claimId,
+      rank: index + 1,
+      confidence: entry.confidence,
+      reason: entry.reason
+    }));
+}
+
 function parseJson(text) {
   const start = text.indexOf("[");
   const end = text.lastIndexOf("]");
@@ -62,8 +114,11 @@ function validateRanking(value, claimIds) {
 
 export async function rankClaimsWithAi(item, claims) {
   if (!env.AI_API_KEY || env.AI_PROVIDER?.toLowerCase() !== "gemini") {
-    const error = new Error("AI_NOT_CONFIGURED");
-    throw error;
+    return {
+      ranking: localRanking(item, claims),
+      limited: claims.length > MAX_CLAIMS,
+      source: "local-fallback"
+    };
   }
 
   const limitedClaims = claims.slice(0, MAX_CLAIMS);
@@ -81,7 +136,7 @@ export async function rankClaimsWithAi(item, claims) {
     },
     claims: limitedClaims.map((claim) => ({
       claimId: claim.id,
-      claimant: clean(claim.claimant.name),
+      claimant: clean(claim.claimant?.name),
       statement: clean(claim.message)
     }))
   };
@@ -144,7 +199,18 @@ export async function rankClaimsWithAi(item, claims) {
 
     return {
       ranking,
-      limited: claims.length > MAX_CLAIMS
+      limited: claims.length > MAX_CLAIMS,
+      source: "gemini"
+    };
+  } catch (error) {
+    return {
+      ranking: localRanking(item, claims),
+      limited: claims.length > MAX_CLAIMS,
+      source: "local-fallback",
+      warning:
+        error.message === "AI_REQUEST_FAILED"
+          ? "Gemini was unavailable, so local evidence ranking was used."
+          : "Gemini returned an unusable response, so local evidence ranking was used."
     };
   } finally {
     clearTimeout(timeout);

@@ -462,10 +462,15 @@ export default function Admin() {
 
                   {ranking && (
                     <div className="ai-ranking-note">
-                      <strong>AI recommendation only</strong>
+                      <strong>
+                        {ranking.source === "gemini"
+                          ? "Gemini recommendation"
+                          : "Local fallback ranking"}
+                      </strong>
                       <span>
                         Review the statements yourself before approving a claim.
                         {ranking.limited && " Only the first 10 pending claims were analyzed."}
+                        {ranking.warning && ` ${ranking.warning}`}
                       </span>
                     </div>
                   )}
