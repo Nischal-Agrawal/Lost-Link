@@ -6,17 +6,36 @@ It combines deterministic matching with optional Gemini AI analysis. The local m
 
 <img width="800" height="500" alt="m" src="https://github.com/user-attachments/assets/554e638a-73ba-4ecd-992a-8d656dc9825f" />
 
-<!-- IMAGE: hero-screenshot -->
-<!-- <video src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" autoplay loop muted playsinline></video> -->
+### Quick Project Summary
 
-<!-- <img width="400" height="225" alt="good_but_i_dont_see_any_admin (1)" src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" /> -->
+**Core flow:** Users report LOST/FOUND items → the system discovers opposite-type candidates → deterministic matching scores candidates → optional Gemini enrichment adds semantic evidence → users submit claims → administrators review and make the final ownership decision.
+
+**Stack:** React 19 + Vite frontend, Node.js + Express 5 backend, PostgreSQL + Prisma, Zod/bcrypt/JWT authentication, TF-IDF-style text similarity, optional Gemini Flash, and a combined Vercel frontend/API deployment.
+
+**Architecture:** React SPA → Express API → authentication/middleware → services → repositories/Prisma → PostgreSQL, with the hybrid matching engine connected to rule scoring, text similarity, and optional Gemini.
+
+**Security:** bcrypt password hashing, JWT HTTP-only cookies, protected/admin routes, disabled-user checks, Zod validation, rate limiting on authentication routes, server-side AI credentials, sanitized AI payloads, and transactional claim approval.
+
+**Matching:** Candidate reports are limited to the opposite type, ACTIVE status, a ±14-day date window, optional category matching, and a maximum of 50 candidates. Local scoring combines structured similarity (70%) and text similarity (30%); candidates below 0.50 are rejected. Optional AI contributes 20% to the final score.
+
+**Ownership:** AI is advisory only. Admin approval is the final decision, and approving one claimant transactionally rejects competing pending claims and resolves the item.
+
+**Deployment:** The repository is configured for one-domain Vercel deployment, with `/api` handled by the Express function and the React app served from `client/dist`.
 
 
+<img width="1908" height="896" alt="Screenshot 2026-09-13 132220" src="https://github.com/user-attachments/assets/106718d5-593b-43f2-9cb3-b4e5d2c66b71" />
 
+<img width="1879" height="896" alt="Screenshot 2026-09-13 132237" src="https://github.com/user-attachments/assets/5f0c06da-6135-41a8-9550-ea212ce6b95b" />
 
+<img width="1881" height="889" alt="Screenshot 2026-09-13 132257" src="https://github.com/user-attachments/assets/6628149f-fc26-483f-9b1d-585e6c9d5923" />
 
+<img width="1899" height="903" alt="Screenshot 2026-09-13 132003" src="https://github.com/user-attachments/assets/9ed7e58d-8f43-42d9-a06f-0bf8b52d178d" />
 
 ## Contents
+
+<details>
+<summary><strong>Click to expand Contents</strong></summary>
+
 
 - [Product Overview](#product-overview)
 - [Core Features](#core-features)
@@ -35,9 +54,14 @@ It combines deterministic matching with optional Gemini AI analysis. The local m
 - [Demo Credentials](#demo-credentials)
 - [Testing and Validation](#testing-and-validation)
 - [Known Limitations](#known-limitations)
-- [Image Placeholder Guide](#image-placeholder-guide)
+
+</details>
 
 ## Product Overview
+
+<details>
+<summary><strong>Click to expand Product Overview</strong></summary>
+
 
 LostLink supports two sides of the recovery process:
 
@@ -51,7 +75,13 @@ LostLink supports two sides of the recovery process:
 
 The product is designed around human review. AI provides evidence and ranking, but it does not make the final ownership decision.
 
+</details>
+
 ## Core Features
+
+<details>
+<summary><strong>Click to expand Core Features</strong></summary>
+
 
 ### Authentication
 
@@ -118,7 +148,13 @@ The product is designed around human review. AI provides evidence and ranking, b
 
 <!-- IMAGE: admin-workspace -->
 
+</details>
+
 ## Technology Stack
+
+<details>
+<summary><strong>Click to expand Technology Stack</strong></summary>
+
 
 ### Frontend
 
@@ -159,7 +195,13 @@ The product is designed around human review. AI provides evidence and ranking, b
 - Neon or another PostgreSQL provider for the database
 - GitHub for source control
 
+</details>
+
 ## Architecture
+
+<details>
+<summary><strong>Click to expand Architecture</strong></summary>
+
 
 ```mermaid
 flowchart LR
@@ -197,7 +239,13 @@ flowchart LR
 - Middleware contains cross-cutting authentication and authorization.
 - Matching modules contain scoring and AI integration.
 
+</details>
+
 ## How the Application Works
+
+<details>
+<summary><strong>Click to expand How the Application Works</strong></summary>
+
 
 ### Creating a Report
 
@@ -239,7 +287,13 @@ When an admin approves a pending claim, the server executes a database transacti
 
 This prevents an item from ending with multiple approved claimants.
 
+</details>
+
 ## Matching Engine
+
+<details>
+<summary><strong>Click to expand Matching Engine</strong></summary>
+
 
 ### Candidate Selection
 
@@ -298,7 +352,13 @@ finalScore = localScore * 0.80 + aiScore * 0.20
 
 If Gemini is unavailable, local results continue to work.
 
+</details>
+
 ## Claims and Admin Moderation
+
+<details>
+<summary><strong>Click to expand Claims and Admin Moderation</strong></summary>
+
 
 ### Admin Claim Ranking
 
@@ -313,7 +373,13 @@ Claim ranking is intentionally manual and on-demand:
 
 This design limits free-tier API usage and prevents AI from becoming an automatic ownership authority.
 
+</details>
+
 ## Data Model
+
+<details>
+<summary><strong>Click to expand Data Model</strong></summary>
+
 
 ```mermaid
 erDiagram
@@ -363,7 +429,13 @@ ItemStatus:  ACTIVE | CLAIMED | RESOLVED
 ClaimStatus: PENDING | APPROVED | REJECTED
 ```
 
+</details>
+
 ## API Overview
+
+<details>
+<summary><strong>Click to expand API Overview</strong></summary>
+
 
 All API routes are under `/api`.
 
@@ -414,7 +486,13 @@ All API routes are under `/api`.
 | POST | `/api/admin/items/:itemId/claim-ranking` | Rank pending claims with Gemini |
 | PATCH | `/api/admin/claims/:id` | Approve or reject a claim |
 
+</details>
+
 ## Security
+
+<details>
+<summary><strong>Click to expand Security</strong></summary>
+
 
 - Passwords are hashed with bcrypt.
 - JWTs are stored in HTTP-only cookies.
@@ -429,7 +507,13 @@ All API routes are under `/api`.
 - Admin approval is transactional.
 - Admins cannot delete themselves or other administrators.
 
+</details>
+
 ## Project Structure
+
+<details>
+<summary><strong>Click to expand Project Structure</strong></summary>
+
 
 ```text
 .
@@ -467,7 +551,13 @@ All API routes are under `/api`.
 └── package.json
 ```
 
+</details>
+
 ## Local Development
+
+<details>
+<summary><strong>Click to expand Local Development</strong></summary>
+
 
 ### Prerequisites
 
@@ -533,7 +623,13 @@ npm start
 
 The Express server serves the generated `client/dist` directory in production.
 
+</details>
+
 ## Environment Variables
+
+<details>
+<summary><strong>Click to expand Environment Variables</strong></summary>
+
 
 | Variable | Required | Description |
 | --- | --- | --- |
@@ -548,7 +644,13 @@ The Express server serves the generated `client/dist` directory in production.
 
 Never commit `.env`. Use hosting-provider environment variables in production.
 
+</details>
+
 ## Deployment
+
+<details>
+<summary><strong>Click to expand Deployment</strong></summary>
+
 
 The repository includes `vercel.json` for a combined frontend/API deployment:
 
@@ -582,7 +684,13 @@ POST https://your-domain.vercel.app/api/auth/login
 POST https://your-domain.vercel.app/api/auth/register
 ```
 
+</details>
+
 ## Demo Credentials
+
+<details>
+<summary><strong>Click to expand Demo Credentials</strong></summary>
+
 
 <details>
 <summary>🔑 View Demo Administrator Credentials</summary>
@@ -607,7 +715,13 @@ Password: User@12345
 
 Change demo credentials before using a deployed environment.
 
+</details>
+
 ## Testing and Validation
+
+<details>
+<summary><strong>Click to expand Testing and Validation</strong></summary>
+
 
 Available commands:
 
@@ -627,7 +741,13 @@ node --check server/src/matching/claimRanker.js
 
 The project includes test-file placeholders under `tests/`. These should be expanded into real integration tests for authentication, authorization, item lifecycle, matching, claims, and admin moderation.
 
+</details>
+
 ## Known Limitations
+
+<details>
+<summary><strong>Click to expand Known Limitations</strong></summary>
+
 
 - The current image field accepts public image URLs rather than uploading binary files.
 - Matching uses a bounded candidate set and simple local text similarity before AI enrichment.
@@ -637,3 +757,5 @@ The project includes test-file placeholders under `tests/`. These should be expa
 - User deletion is destructive; production systems may prefer soft deletion.
 - The test files need meaningful automated coverage.
 - Production monitoring, structured logs, and alerting should be added for a larger deployment.
+
+</details>
