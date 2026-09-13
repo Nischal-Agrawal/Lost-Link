@@ -4,7 +4,7 @@ LostLink is a full-stack lost-and-found platform for creating item reports, disc
 
 It combines deterministic matching with optional Gemini AI analysis. The local matcher provides predictable results even when AI is unavailable, while Gemini adds semantic reasoning for natural-language descriptions and competing claim statements.
 
-<img width="400" height="225" alt="m" src="https://github.com/user-attachments/assets/554e638a-73ba-4ecd-992a-8d656dc9825f" />
+<img width="800" height="500" alt="m" src="https://github.com/user-attachments/assets/554e638a-73ba-4ecd-992a-8d656dc9825f" />
 
 <!-- IMAGE: hero-screenshot -->
 <!-- <video src="https://github.com/user-attachments/assets/65e8cf85-8f31-4a7f-bd6e-843dd45f7035" autoplay loop muted playsinline></video> -->
